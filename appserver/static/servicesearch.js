@@ -15,11 +15,8 @@ require([
 
 
     var tokens = mvc.Components.get("default");
-    var service = mvc.createService({ owner: "nobody" });
-
+    var service = mvc.createService();
     var req = service.request(path = '/namespace_endpoint');
-
-
     req.done(function(response) {
     // Search query is based on the selected index
     var indexsearch = new SearchManager({
@@ -73,8 +70,6 @@ require([
                   var service = mvc.createService();
                   var req = service.request(path = '/service_endpoint');
                   req.done(function(answer) {
-                    console.log(response);
-                    console.log(indexName);
                     console.log(answer);
                       });
                     });
