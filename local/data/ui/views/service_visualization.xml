@@ -1,0 +1,18 @@
+<dashboard script="servicesearch.js">
+  <label>service_visualization</label>
+  <description></description>
+  <row>
+    <panel>
+      <html>
+        <h2>services</h2>
+
+        <p>Services:</p>
+        <div id="indexlist"></div><br/>
+        
+        <p>Here's the search:</p>
+        <div id="text1"></div>
+        <div id="tableindex"></div>
+      </html>
+    </panel>
+  </row>
+</dashboard>
