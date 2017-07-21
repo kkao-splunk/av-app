@@ -16,14 +16,9 @@ require([
 
     var tokens = mvc.Components.get("default");
     var service = mvc.createService({ owner: "nobody" });
-    var request = service.request("storage/collections/data/namespace/",
-                   "GET",
-                   null,
-                   null,
-                   null,
-                      {"Content-Type": "application/json"},
-                   null);
+
     var req = service.request(path = '/namespace_endpoint');
+
 
     req.done(function(response) {
     // Search query is based on the selected index
@@ -42,7 +37,7 @@ require([
       jsonObj.push(item);
       i += 1;
     }
-
+    //service.del("storage/collections/data/namespace/");
     var indexlist = new DropdownView({
         id:"indexlist",
         choices: jsonObj,
@@ -59,10 +54,31 @@ require([
             newQuery = "index=_internal OR index=_audit OR index=main" + newQuery;
         } else {
             newQuery = "index=" + indexName + newQuery;
-            request.done(function(response) {
-              console.log(response);
-              console.log(indexName);
-            })
+            var service = mvc.createService({ owner: "nobody" });
+            service.del("storage/collections/data/namespace/");
+            var get = service.get("storage/collections/data/namespace/");
+            var finish = get.done(function(answer) {
+                var record = {
+                        'namespace' : indexName
+                       }
+                service.request(
+                       "storage/collections/data/namespace/",
+                        "POST",
+                        null,
+                        null,
+                        JSON.stringify(record),
+                      {"Content-Type": "application/json"},
+                      null);
+                finish.done(function(something) {
+                  var service = mvc.createService();
+                  var req = service.request(path = '/service_endpoint');
+                  req.done(function(answer) {
+                    console.log(response);
+                    console.log(indexName);
+                    console.log(answer);
+                      });
+                    });
+            });
         }
 
         // Update the $searchQuery$ token value
